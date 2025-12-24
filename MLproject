@@ -1,0 +1,33 @@
+name: RetailGenius_Churn_Prediction
+
+python_env: python_env.yaml
+
+entry_points:
+  main:
+    parameters:
+      data_path: {type: str, default: "data/raw"}
+      model_type: {type: str, default: "random_forest"}
+      n_estimators: {type: int, default: 100}
+      max_depth: {type: int, default: 10}
+      test_size: {type: float, default: 0.2}
+    command: "python -m src.models.train"
+  
+  data_preparation:
+    command: "python -m src.data.data_preparation"
+  
+  feature_engineering:
+    command: "python -m src.features.feature_engineering"
+  
+  train:
+    command: "python -m src.models.train"
+  
+  inference:
+    parameters:
+      input_path: {type: str, default: "data/processed/X_test.csv"}
+    command: "python -m src.models.inference"
+  
+  shap_analysis:
+    parameters:
+      sample_index: {type: int, default: 0}
+      max_samples: {type: int, default: 500}
+    command: "python -m src.visualization.shap_analysis"
